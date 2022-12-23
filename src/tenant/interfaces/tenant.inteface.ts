@@ -1,4 +1,4 @@
-export interface Tenant {
+export interface ITenant {
     tenant_name: string;
     dob_name: string;
     cnpj: string;

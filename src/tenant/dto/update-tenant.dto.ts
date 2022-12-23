@@ -1,6 +1,6 @@
 export class UpdateTenantDto {
-    readonly tenant_name: string;
-    readonly dob_name: string;
-    readonly cnpj: string;
-    readonly is_active: boolean;
+    tenant_name: string;
+    dob_name: string;
+    cnpj: string;
+    is_active: boolean;
 }

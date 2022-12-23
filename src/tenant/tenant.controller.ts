@@ -1,32 +1,23 @@
-import { Controller, Post, Body, Get, Res, HttpStatus, RawBodyRequest, Req, Param, HttpCode, Put, } from '@nestjs/common';
+import { Controller, Post, Body, Get, Res, HttpStatus, RawBodyRequest, Req, Param, HttpCode, Put, Delete, } from '@nestjs/common';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { TenantService } from './tenant.service';
-import { Tenant } from './interfaces/tenant.inteface';
+import { ITenant } from './interfaces/tenant.inteface';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
+import { TenantModel as TenantModel } from '@prisma/client';
 
 @Controller('tenant')
 export class TenantController {
     constructor(private tenantService: TenantService) {}
 
-    @Post('create')
-    @HttpCode(200)
-    async createTenant(@Body() createTenantDto: CreateTenantDto) {
-        const tenant = this.tenantService.createTenant(createTenantDto);
-        return {
-            tenant,
-            message: 'Usuario Cadastrado com sucesso'
-        }
-       }
-    @Get()
-    async findAll(): Promise<Tenant[]>{
-        return this.tenantService.findAll();
+    @Post()
+    async createDraft(
+        @Body() tenantData: { tenant_name: string; dob_name: string, is_active: boolean },
+      ): Promise<TenantModel> {
+        const { tenant_name, dob_name, is_active } = tenantData;
+        return this.tenantService.createTenant({ 
+          tenant_name,
+          dob_name,
+          is_active
+        });
     }
-
-    @Put(':id')
-    update(@Param('id') id: string, @Body() updateTenantDto: UpdateTenantDto) {
-        return `This action returns a #${id} tenant`
-    }
-
-
-
 }
